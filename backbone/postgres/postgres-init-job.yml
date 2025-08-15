@@ -1,0 +1,47 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: postgres-init
+  labels:
+    app.kubernetes.io/name: postgres-init
+    app.kubernetes.io/part-of: backbone
+  annotations:
+    reloader.stakater.com/auto: "true"
+spec:
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: postgres-init
+        app.kubernetes.io/part-of: backbone
+    spec:
+      containers:
+        - name: postgres-init
+          image: alpine/psql:latest
+          command: ['psql']
+          args:
+            - "-h"
+            - "postgres"
+            - "-f"
+            - "/scripts/init_db.sql"
+          env:
+            - name: PGUSER
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-credentials
+                  key: user
+            - name: PGPASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-credentials
+                  key: password
+          volumeMounts:
+            - name: init-script
+              mountPath: /scripts
+      volumes:
+        - name: init-script
+          configMap:
+            name: postgres-init
+            items:
+              - key: init_db.sql
+                path: init_db.sql
+      restartPolicy: OnFailure

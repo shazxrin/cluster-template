@@ -1,0 +1,84 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: config
+  namespace: renovate
+  labels:
+    app.kubernetes.io/name: config
+    app.kubernetes.io/part-of: renovate
+data:
+  config.js: |
+    module.exports = {
+      repositories: [
+        "shazxrin/cluster",
+        "shazxrin/notifier",
+        "shazxrin/one-percent-better",
+        "shazxrin/alif"
+      ],
+      extends: [
+        "config:recommended"
+      ],
+      platform: "github",
+      token: process.env.RENOVATE_TOKEN,
+      labels: [
+        "dependencies"
+      ],
+      automerge: true,
+      packageRules: [
+        {
+          matchManagers: [
+            "gradle"
+          ],
+          matchDepTypes: [
+            "dependencies",
+            "pluginDependencies",
+            "dependencyManagement",
+            "plugins"
+          ],
+          enabled: true,
+        },
+        {
+          matchManagers: [
+            "github-actions"
+          ],
+          enabled: true
+        },
+        {
+          matchManagers: [
+            "argocd"
+          ],
+          enabled: true
+        },
+        {
+          matchManagers: [
+            "kubernetes"
+          ],
+          enabled: true
+        }
+      ],
+      hostRules: [
+        {
+          matchHost: "api.github.com",
+          hostType: "github",
+          token: process.env.RENOVATE_TOKEN
+        },
+        {
+          matchHost: "maven.pkg.github.com",
+          hostType: "maven",
+          token: process.env.RENOVATE_TOKEN
+        },
+        {
+          matchHost: "ghcr.io",
+          hostType: "docker",
+          username: "shazxrin",
+          password: process.env.RENOVATE_TOKEN
+        },
+        {
+          matchHost: "ghcr.io",
+          hostType: "helm",
+          username: "shazxrin",
+          password: process.env.RENOVATE_TOKEN
+        }
+      ],
+      ignoreDeps: []
+    }

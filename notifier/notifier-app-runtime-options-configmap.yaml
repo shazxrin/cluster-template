@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: app-runtime-options
+  namespace: notifier
+  labels:
+    app.kubernetes.io/name: app-runtime-options
+    app.kubernetes.io/part-of: notifier
+data:
+  options: "-Duser.timezone=Asia/Singapore -XX:MaxRAMPercentage=0.8"

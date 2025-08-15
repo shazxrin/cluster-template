@@ -1,0 +1,97 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: rabbitmq-definitions
+  labels:
+    app.kubernetes.io/name: rabbitmq-definitions
+    app.kubernetes.io/part-of: backbone
+data:
+  definitions.json: |-
+    {
+      "rabbit_version": "4.1.0",
+      "rabbitmq_version": "4.1.0",
+      "product_name": "RabbitMQ",
+      "product_version": "4.1.0",
+      "rabbitmq_definition_format": "cluster",
+      "original_cluster_name": "rabbit@202b35038dc9",
+      "explanation": "Definitions of cluster 'rabbit@202b35038dc9'",
+      "users": [
+        {
+          "name": "user",
+          "password_hash": "iVjNg4dBGuA2Zxn6UGtf8/KOy2483km5c9G7dfT1pdlfyHAL",
+          "hashing_algorithm": "rabbit_password_hashing_sha256",
+          "tags": [
+            "administrator"
+          ],
+          "limits": {}
+        }
+      ],
+      "vhosts": [
+        {
+          "name": "/",
+          "description": "Default virtual host",
+          "metadata": {
+            "description": "Default virtual host",
+            "tags": [],
+            "default_queue_type": "classic"
+          },
+          "tags": [],
+          "default_queue_type": "classic"
+        }
+      ],
+      "permissions": [
+        {
+          "user": "user",
+          "vhost": "/",
+          "configure": ".*",
+          "write": ".*",
+          "read": ".*"
+        }
+      ],
+      "topic_permissions": [],
+      "parameters": [],
+      "global_parameters": [
+        {
+          "name": "cluster_tags",
+          "value": []
+        },
+        {
+          "name": "internal_cluster_id",
+          "value": "rabbitmq-cluster-id-_IQwqpBlc375NYaHyGMzsw"
+        }
+      ],
+      "policies": [],
+      "queues": [
+        {
+          "name": "queue-notification",
+          "vhost": "/",
+          "durable": true,
+          "auto_delete": false,
+          "arguments": {
+            "x-queue-type": "classic"
+          }
+        }
+      ],
+      "exchanges": [
+        {
+          "name": "exchange-notification",
+          "vhost": "/",
+          "type": "direct",
+          "durable": true,
+          "auto_delete": false,
+          "internal": false,
+          "arguments": {}
+        }
+      ],
+      "bindings": [
+        {
+          "source": "exchange-notification",
+          "vhost": "/",
+          "destination": "queue-notification",
+          "destination_type": "queue",
+          "routing_key": "",
+          "arguments": {}
+        }
+      ]
+    }
+

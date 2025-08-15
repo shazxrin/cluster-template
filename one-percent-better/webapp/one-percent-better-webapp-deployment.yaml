@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: webapp
+  labels:
+    app.kubernetes.io/name: webapp
+    app.kubernetes.io/part-of: one-percent-better
+  annotations:
+    reloader.stakater.com/auto: "true"
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: webapp
+      app.kubernetes.io/part-of: one-percent-better
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: webapp
+        app.kubernetes.io/part-of: one-percent-better
+    spec:
+      containers:
+        - env:
+            - name: APP_URL
+              valueFrom:
+                secretKeyRef:
+                  name: webapp-configuration
+                  key: app-url
+          image: ghcr.io/shazxrin/one-percent-better:v1.2.0-web
+          name: one-percent-better
+          ports:
+            - containerPort: 3000
+              protocol: TCP
+          resources:
+            requests:
+              cpu: 500m
+              memory: 512Mi
+            limits:
+              cpu: 2000m
+              memory: 2Gi
+      restartPolicy: Always

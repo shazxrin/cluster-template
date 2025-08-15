@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: app-runtime-options
+  namespace: alif
+  labels:
+    app.kubernetes.io/name: app-runtime-options
+    app.kubernetes.io/part-of: alif
+data:
+  options: "-Duser.timezone=Asia/Singapore -XX:MaxRAMPercentage=0.8"

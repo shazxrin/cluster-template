@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: webapp
+  labels:
+    app.kubernetes.io/name: webapp
+    app.kubernetes.io/part-of: one-percent-better
+spec:
+  type: LoadBalancer
+  loadBalancerClass: tailscale
+  ports:
+    - name: "http"
+      port: 80
+      targetPort: 3000
+  selector:
+    app.kubernetes.io/name: webapp
+    app.kubernetes.io/part-of: one-percent-better
