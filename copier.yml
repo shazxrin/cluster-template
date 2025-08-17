@@ -1,0 +1,9 @@
+cluster_repository_url:
+  type: str
+  help: "URL of the cluster repository"
+cluster_repository_username:
+  type: str
+  help: "Username for the cluster repository"
+cluster_repository_password:
+  type: str
+  help: "Password for the cluster repository"
