@@ -10,7 +10,7 @@ data:
   config.js: |
     module.exports = {
       repositories: [
-        "shazxrin/cluster",
+        "shazxrin/cluster-template",
         "shazxrin/notifier",
         "shazxrin/one-percent-better",
         "shazxrin/alif"
