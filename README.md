@@ -43,9 +43,10 @@ flowchart LR
 - ArgoCD for GitOps
 - Reloader for reloading deployments on configuration changes
 - Sealed Secrets for pushing secrets in Git repository safely
+- Renovate for version management for cluster and applications
 - Tailscale for exposing applications to personal devices
 - Helm for deploying personal applications from [Project Homemade](https://github.com/shazxrin/homerun)
-- *(Planned) LGTM stack for cluster and application monitoring* 
+- *(Planned) LGTM stack for monitoring cluster and applications* 
 - *(Planned) Vault for secret management* 
 - *(Planned) Istio for service mesh* 
 - Applications
