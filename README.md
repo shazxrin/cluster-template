@@ -2,6 +2,42 @@
 
 Defines Kubernetes cluster state and setup scripts for setting a Kubernetes cluster. Uses [copier](https://hgithub.com/copier-org/copier) to create a copy for each environment (i.e. main, sandbox).
 
+```mermaid
+flowchart LR
+%% Groups
+    subgraph GitOps
+        ArgoCD[ArgoCD]
+        Renovate[Renovate]
+    end
+
+    subgraph Backbone["Backbone"]
+        Postgres[(Postgres)]
+        RabbitMQ[(RabbitMQ)]
+        Minio[(MinIO)]
+    end
+
+    subgraph Apps["Applications"]
+        Alif[Alif]
+        OPB[One Percent Better]
+        Notifier[Notifier]
+    end
+
+    Reloader[Reloader]
+    Tailscale[Tailscale]
+
+%% GitOps
+    Renovate --> ArgoCD
+    ArgoCD --> Apps
+    ArgoCD --> Backbone
+
+%% App to backbone dependencies (coarse-grained to box)
+    Apps --> Backbone
+
+%% Runtime and Exposure (to box)
+    Reloader -.config changes.-> Apps
+    Tailscale --> Apps
+```
+
 ## Tech Stack
 
 - ArgoCD for GitOps
