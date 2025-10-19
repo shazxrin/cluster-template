@@ -1,0 +1,27 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  labels:
+    app.kubernetes.io/name: monitoring
+    app.kubernetes.io/part-of: argocd
+  name: monitoring
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: {{ cluster_repository_url }}
+    targetRevision: HEAD
+    path: monitoring
+    directory:
+      recurse: true
+      exclude: "{minio/minio-credentials-secret.yaml}"
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: monitoring
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+      allowEmpty: true
+    syncOptions:
+      - CreateNamespace=true
