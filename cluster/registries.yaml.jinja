@@ -1,0 +1,10 @@
+  mirrors:
+    ghcr.io:
+      endpoint:
+        - "https://ghcr.io"
+
+  configs:
+    ghcr.io:
+      auth:
+        username: {{ cluster_repository_username }}
+        password: {{ cluster_repository_password }}

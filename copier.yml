@@ -7,3 +7,6 @@ cluster_repository_username:
 cluster_repository_password:
   type: str
   help: "Password for the cluster repository"
+cluster_ip:
+  type: str
+  help: "IP address of the cluster"

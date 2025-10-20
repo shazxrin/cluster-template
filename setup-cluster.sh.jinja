@@ -1,0 +1,19 @@
+#!/bin/bash
+
+echo "Installing k3s"
+curl -sfL https://get.k3s.io | sh -s - server --write-kubeconfig-mode 644 --tls-san="{{ cluster_ip }}"
+
+echo "Setting up k3s"
+sudo cp /etc/rancher/k3s/k3s.yaml ~/.kube/config
+sudo chown $(id -u):$(id -g) ~/.kube/config
+sudo mv ./cluster/registries.yaml /etc/rancher/k3s/registries.yaml
+sudo systemctl restart k3s
+
+echo "Creating Kubernetes namespace for ArgoCD"
+kubectl create namespace argocd
+
+echo "Installing ArgoCD"
+kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
+
+echo "Installing Sealed Secrets"
+kubectl apply -n argocd -f ./argocd/init/sealed-secrets-application.yaml
